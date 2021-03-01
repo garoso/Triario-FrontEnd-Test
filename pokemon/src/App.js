@@ -6,6 +6,7 @@ import './App.css';
 class SearchPokemon extends Component {
   state = {
     searchPokemon: '',
+    pokemonData: []
   }
 
   onChange = (event) =>{
@@ -17,11 +18,9 @@ class SearchPokemon extends Component {
     this.getPokemon(this.state.searchPokemon)
   }
 
-  getPokemon (pokemon){
-    axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-      .then((response) => {
-        console.log(response.data)
-      })
+  async getPokemon (pokemon){
+    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+      this.setState({pokemonData: response.data})
   }
   render () {
     return(
@@ -30,6 +29,7 @@ class SearchPokemon extends Component {
         <form onSubmit={this.onSubmit}>
           <input type="text" onChange={this.onChange}/>
         </form>
+        <h2>id:{this.pokemonData}</h2>
       </div>
 
     )
